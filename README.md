@@ -13,14 +13,19 @@ All topologies are designed, configured, and validated using Cisco Packet Tracer
 
 ---
 
-## 📂 Active Laboratory Projects
+## 📁 Portfolio Projects Index
 
-### 📁 Lab 01: Multi-Site Enterprise Branch LAN
-* **Directory:** `/01-Enterprise-Branch-LAN`
+### 📁 01-Multi-Interface-Inter-VLAN-Routing
+* **Directory:** `01-Multi-Interface-Inter-VLAN-Routing`
 * **Status:** 🟢 Completed & Validated
-* **Description:** A complete two-site branch architecture using a 2911 physical router and 2960 access switches. Slices a unified network space into custom subnets, allowing isolated corporate departments (Admin and Finance) to communicate securely across the LAN backplane while establishing full routing connectivity to a standalone remote office site.
-* **[👉 Click here to view the full lab documentation, screenshots, and topology files](./01-Enterprise-Branch-LAN)**
+* **Description:** Designed a baseline multi-subnet architecture utilizing custom IPv4 VLSM (`/26` precision blocks) across distributed switches. Implemented segmented gateway routing across multiple physical interfaces (GigabitEthernet0/0 and 0/1) on a Cisco 2911 Services Router to facilitate inter-subnet communication.
+* **🔗 [Click here to view the full lab documentation, screenshots, and topology files](./01-Multi-Interface-Inter-VLAN-Routing)**
 
+### 📁 02-Router-on-a-Stick-Trunk-Consolidation
+* **Directory:** `02-Router-on-a-Stick-Trunk-Consolidation`
+* **Status:** 🟢 Completed & Validated
+* **Description:** Advanced the local infrastructure by migrating to a consolidated Router-on-a-Stick (ROAS) topology. Optimized physical hardware usage by establishing a single-interface 802.1Q trunk link between the switch framework and a single router interface (Gig0/0), leveraging logical subinterfaces to route traffic dynamically across Sales, HR, and Marketing.
+* **🔗 [Click here to view the full lab documentation, screenshots, and topology files](./02-Router-on-a-Stick-Trunk-Consolidation)**
 ---
 
 ## 🛠️ Tools & Environments Used
