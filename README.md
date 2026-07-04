@@ -15,7 +15,7 @@ All topologies are designed, configured, and validated using Cisco Packet Tracer
 
 ## 📂 Active Laboratory Projects
 
-### 📁 Lab 01: Multi-Site Enterprise Branch LAN (Days 1–18 Milestone)
+### 📁 Lab 01: Multi-Site Enterprise Branch LAN
 * **Directory:** `/01-Enterprise-Branch-LAN`
 * **Status:** 🟢 Completed & Validated
 * **Description:** A complete two-site branch architecture using a 2911 physical router and 2960 access switches. Slices a unified network space into custom subnets, allowing isolated corporate departments (Admin and Finance) to communicate securely across the LAN backplane while establishing full routing connectivity to a standalone remote office site.
