@@ -8,7 +8,7 @@ This is the full visual workspace layout with all interface links fully converge
 
 ### ### Core Routing Table (`show ip route`)
 The routing engine dynamically populates its routing table using directly connected interface logic across the virtual subinterfaces.
-![Routing Table](router_routing_table.png)
+![Routing Table](routing_table.png)
 
 ### ### End-to-End ICMP Ping Success Verification
 Successful execution of cross-department and cross-site pings originating from PC0.
