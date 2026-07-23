@@ -27,6 +27,13 @@ All topologies are designed, configured, and validated using Cisco Packet Tracer
 * **Description:** Advanced the local infrastructure by migrating to a consolidated Router-on-a-Stick (ROAS) topology. Optimized hardware usage by establishing a single-interface 802.1Q trunk link between the switch framework and a single router interface (Gig0/0), leveraging logical subinterfaces to route traffic dynamically across Sales, HR, and Marketing domains.
 * **🔗 [Click here to view the full lab documentation, screenshots, and topology files](./02-Router-on-a-Stick-Trunk-Consolidation)**
 
+📁 03-Multilayer_Switching_SVI_and_Cloud_Integration
+
+* Directory: `03-Multilayer_Switching_SVI_and_Cloud_Integration`
+* Status: 🟢 Completed & Validated
+* Description: Implemented high-speed Layer 3 switching using Switch Virtual Interfaces (SVIs) on a Cisco 3650 Multilayer Switch. Established a point-to-point routed transit link (`172.16.10.192/30`) to an edge router, integrating local VLAN networks with external WAN and Cloud connectivity for end-to-end reachability.
+* 🔗 [Click here to view the full lab documentation, screenshots, and topology files](./03-Multilayer_Switching_SVI_and_Cloud_Integration)  
+
 ---
 
 ## 🛠️ Tools & Environments Used
