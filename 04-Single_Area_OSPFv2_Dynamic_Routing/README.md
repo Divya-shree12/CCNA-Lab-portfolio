@@ -8,11 +8,11 @@ This is the full visual workspace layout showcasing multi-site enterprise scalab
 
 ### OSPF Neighbor Adjacencies (`show ip ospf neighbor`)
 The neighbor adjacency table confirms dynamic neighbor discovery, Hello/Dead timer synchronization, and full state convergence (`FULL/DR` and `FULL/BDR`) across all routed point-to-point WAN transit links.
-![OSPF Neighbors](./ospf_neighbors.png)
+![OSPF Neighbors](./OSPF_neighbor_table.png)
 
 ### Routing Protocol & Passive Interface Status (`show ip protocols`)
 Verification of the active OSPF process, assigned Router IDs, participating subnets, and passive interface security boundaries that suppress unnecessary Hello broadcasts across user access segments.
-![IP Protocols](./ip_protocols.png)
+![IP Protocols](./OSPF_protocols_and_passive_interface_status.png)
 
 ### Enterprise Routing Table (`show ip route`)
 The routing table verifies dynamically learned inter-site OSPF routes (`O`) alongside the quad-zero default exterior gateway route (`O*E2 0.0.0.0/0`) injected from the edge router.
