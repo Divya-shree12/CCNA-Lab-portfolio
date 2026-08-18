@@ -16,6 +16,7 @@ Verification of the active OSPF process, assigned Router IDs, participating subn
 
 ### Enterprise Routing Table (`show ip route`)
 The routing table verifies dynamically learned inter-site OSPF routes (`O`) alongside the quad-zero default exterior gateway route (`O*E2 0.0.0.0/0`) injected from the edge router.
+
 ![Routing Table](./routing_table.png)
 
 ### End-to-End ICMP Ping & WAN/Internet Reachability Verification
