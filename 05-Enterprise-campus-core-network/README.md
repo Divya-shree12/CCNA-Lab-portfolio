@@ -1,4 +1,4 @@
-# Lab 05: Resilient Enterprise Core & Multi-Layer Routing (HSRP, OSPFv2, LACP, NAT/PAT & Port Security)
+# Lab 05: Enterprise Campus Core Network (HSRP, OSPFv2, LACP, NAT/PAT & Port Security) 
 
 ## The Network Topology
 This is the full visual workspace layout showcasing a high-availability, fault-tolerant enterprise campus architecture. The design implements dual core multilayer switches operating active/standby First-Hop Redundancy (HSRP) and link aggregation (LACP Port-Channel), single-area dynamic OSPFv2 backbone routing, edge NAT/PAT overload, Layer 2 access port hardening (PortFast & BPDU Guard), and guest traffic segmentation via extended access control lists.
