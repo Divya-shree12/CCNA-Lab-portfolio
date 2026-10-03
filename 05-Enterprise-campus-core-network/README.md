@@ -12,7 +12,7 @@ Validation of First-Hop Redundancy Protocol (FHRP) roles across core switches `M
 
 ### 2. Core Interconnect Link Resilience: LACP Link Failure Test (`show etherchannel summary`)
 Validation of multi-link aggregation resilience across the core switch trunk bundle (`Port-channel 1`). Following an administrative shutdown of member interface `Fa0/1` (flagged as `D`), `Po1` dynamically sustains an operational `SU` (Layer 2, In Use) status with the surviving active interface `Fa0/2` (`P`), preserving inter-core trunking without spanning tree recalculation.
-![LACP Fault Tolerance](./lacp-link-failure-redundancy-test.png)
+![LACP Fault Tolerance](./lacp-link-faliure-redundancy-test.png)
 
 ### 3. Dynamic Routing: OSPFv2 Neighbor Adjacency (`show ip ospf neighbor`)
 Verification of dynamic interior gateway adjacency formation across the Layer 3 routed transit links (`10.0.0.0/30` and `10.0.0.4/30`). Neighbor states between edge router `R1` and both core multilayer switches confirm complete link-state database synchronization in the `FULL` state.
