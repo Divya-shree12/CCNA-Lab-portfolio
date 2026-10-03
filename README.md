@@ -47,7 +47,7 @@ All topologies are designed, configured, and validated using Cisco Packet Tracer
 * **Directory:** `05-Resilient_Enterprise_Core_HSRP_LACP_OSPF`
 * **Status:** 🟢 Completed & Validated
 * **Description:** Engineered an enterprise-scale, fault-tolerant campus architecture featuring redundant Cisco Catalyst 3560 multilayer switch cores. Implemented active/standby First-Hop Redundancy (HSRP) across departmental SVIs, an aggregated multi-link LACP trunk (Port-channel 1), dynamic Single-Area OSPFv2 backbone routing with default route injection, and edge Port Address Translation (PAT) to an external ISP network. Hardened the infrastructure using Spanning Tree BPDU Guard on access ports and extended ACLs to enforce strict guest network isolation.
-* **🔗 [Click here to view the full lab documentation, screenshots, and topology files](./05-Resilient_Enterprise_Core_HSRP_LACP_OSPF)**
+* **🔗 [Click here to view the full lab documentation, screenshots, and topology files](./05-Enterprise-campus-core-network)**
 
 ---
 
