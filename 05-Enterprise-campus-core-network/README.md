@@ -1,65 +1,43 @@
-# Enterprise Campus Core & High-Availability Network Simulation
+# Lab 05: Resilient Enterprise Core & Multi-Layer Routing (HSRP, OSPFv2, LACP, NAT/PAT & Port Security)
 
-> **Status:** 🚧 Active Development / Engineering In Progress  
-> **Simulation Platform:** Cisco Packet Tracer  
-> **Target Completion:** Under Active Sprint
+## The Network Topology
+This is the full visual workspace layout showcasing a high-availability, fault-tolerant enterprise campus architecture. The design implements dual core multilayer switches operating active/standby First-Hop Redundancy (HSRP) and link aggregation (LACP Port-Channel), single-area dynamic OSPFv2 backbone routing, edge NAT/PAT overload, Layer 2 access port hardening (PortFast & BPDU Guard), and guest traffic segmentation via extended access control lists.
+![Network Architecture](./network-topology-overview.png)
 
----
+## Verification & Proof of Concept
 
-## 📌 Project Overview
-This project focuses on designing, staging, and verifying a multi-tier, fault-tolerant enterprise campus network from the access layer up to the simulated public edge. Built to demonstrate core competencies required for Junior Network Engineering and NOC roles, the topology follows standard enterprise design principles emphasizing redundancy, sub-second failover, protocol-driven segmentation, and secure perimeter translation.
+### 1. High Availability: HSRP Gateway Redundancy (`show standby brief`)
+Validation of First-Hop Redundancy Protocol (FHRP) roles across core switches `MLS0` and `MLS1`. `MLS0` operates as the primary `Active` virtual gateway across all VLAN SVIs (Groups 5, 10, 20, 30) due to higher priority (`110`) with preemption enabled, while `MLS1` maintains synchronized `Standby` tracking.
+![HSRP Standby Brief](./hsrp-standby-brief-roles.png)
 
----
+### 2. Core Interconnect Link Resilience: LACP Link Failure Test (`show etherchannel summary`)
+Validation of multi-link aggregation resilience across the core switch trunk bundle (`Port-channel 1`). Following an administrative shutdown of member interface `Fa0/1` (flagged as `D`), `Po1` dynamically sustains an operational `SU` (Layer 2, In Use) status with the surviving active interface `Fa0/2` (`P`), preserving inter-core trunking without spanning tree recalculation.
+![LACP Fault Tolerance](./lacp-link-failure-redundancy-test.png)
 
-## 📐 Network Architecture & Design Goals
+### 3. Dynamic Routing: OSPFv2 Neighbor Adjacency (`show ip ospf neighbor`)
+Verification of dynamic interior gateway adjacency formation across the Layer 3 routed transit links (`10.0.0.0/30` and `10.0.0.4/30`). Neighbor states between edge router `R1` and both core multilayer switches confirm complete link-state database synchronization in the `FULL` state.
+![OSPF Neighbors](./ospf-neighbor-adjacency-full.png)
 
-### 1. High Availability & Switching Fabric
-* **FHRP Gateway Redundancy:** Deploying **HSRP (Hot Standby Router Protocol)** across dual Cisco Catalyst 3560 Multilayer Switches (`MLS0` and `MLS1`) to provide zero-impact default gateway failover for end stations via shared Virtual IPs (VIPs).
-* **Link Aggregation:** Bundling dual inter-switch links between distribution switches into an **IEEE 802.3ad LACP (Port-Channel)** trunk to increase throughput and eliminate single points of failure.
-* **Layer 2 Segmentation:** Defining distinct broadcast domains for corporate users, management, and guests across access switch `Switch2` with IEEE 802.1Q trunking.
+### 4. Enterprise Core Routing Table (`show ip route ospf`)
+Inspection of the routing table on `MLS0` confirming dynamic learning of internal subnets and receipt of the quad-zero default exterior gateway route (`O*E2 0.0.0.0/0`) dynamically injected by edge gateway `R1` via `default-information originate`.
+![OSPF Routing Table](./mls0-ospf-routing-table.png)
 
-### 2. Layer 3 Routing & Transit
-* **Routed Core Boundaries:** Establishing dedicated `/30` point-to-point Layer 3 transit links between distribution multilayer switches and the perimeter edge router (`Router1`).
-* **Dynamic Interior Routing:** Deploying single-area **OSPFv2 (Area 0)** to distribute campus SVI networks and transit routes dynamically while suppressing unnecessary routing overhead on access VLANs via passive interfaces.
+### 5. Uplink Failover & Dynamic OSPF Convergence
+Verification of sub-second dynamic rerouting during an active failure of `MLS0`'s primary routed uplink (`Gi0/1` shut down). Continuous ICMP echo requests from host `PC0` to external target `8.8.8.8` demonstrate immediate Shortest Path First (SPF) path recalculation across `Port-channel 1` to `MLS1` with only a single dropped packet before traffic flow is restored.
+![OSPF Uplink Failover](./ospf-uplink-failover-convergence-test.png)
 
-### 3. Edge Perimeter & Services
-* **Perimeter NAT/PAT:** Configuring Port Address Translation (NAT Overload) on `Router1` to bridge internal RFC 1918 private subnets out to an ISP public boundary (`203.0.113.0/30`).
-* **Centralized Network Services:** Integrating an internal enterprise services server providing dynamic IP configuration across broadcast domains via **DHCP Relay (`ip helper-address`)**, internal DNS resolution, and NTP synchronization.
-* **Security Enforcement:** Implementing standard and extended Access Control Lists (ACLs) to enforce zero-trust isolation between guest users and core internal resources.
+### 6. Edge Security: Extended ACL Network Segmentation
+ICMP verification from guest endpoint `PC2` (`192.168.30.100`) confirming traffic isolation. The inbound extended ACL `GUEST_RESTRICTION` applied to `Vlan 30` drops all attempts to reach private internal enterprise subnets (`192.168.10.0/24`, `192.168.20.0/24`, and server subnet `192.168.5.0/24`) with `Destination host unreachable`, while permitting outbound traffic to the public Internet.
+![Guest ACL Isolation](./guest-vlan-acl-isolation-verification.png)
 
----
+### 7. Layer 2 Access Layer Hardening: BPDU Guard (`show interfaces status`)
+Validation of STP edge port protection on access switch `SW1`. Connecting an unauthorized bridge device to host-facing port `FastEthernet 0/1` triggers immediate BPDU Guard violation logging, automatically placing the interface into an `err-disabled` state to mitigate potential Layer 2 switching loops and rogue root bridge elections.
+![BPDU Guard Err-Disable](./bpduguard-errdisable-verification.png)
 
-## 🗺️ Addressing Plan (RFC 1918 & Public Transits)
+### 8. Edge NAT/PAT Translations (`show ip nat translations`)
+Inspection of active Port Address Translation (PAT) sessions on edge router `R1`. Internal private client IP addresses across all authorized VLANs are dynamically translated to public outside interface `Gi0/2` sockets, enabling simultaneous outbound internet access.
+![NAT PAT Translations](./r1-nat-pat-translations.png)
 
-| Segment / Function | Subnet / Mask | Gateway / VIP | Notes |
-| :--- | :--- | :--- | :--- |
-| **ISP Transit (R0 - R1)** | `203.0.113.0/30` | `203.0.113.1` | Simulated public edge link |
-| **External Services (R0 - SVR1)** | `203.0.113.4/30` | `203.0.113.5` | Public simulated test server |
-| **Transit Link 1 (R1 - MLS0)** | `192.168.1.0/30` | Point-to-Point | Routed L3 connection |
-| **Transit Link 2 (R1 - MLS1)** | `192.168.1.4/30` | Point-to-Point | Routed L3 connection |
-| **VLAN 10 (Corporate Data)** | `192.168.10.0/24` | `192.168.10.254` | HSRP Active on MLS0 |
-| **VLAN 20 (Management)** | `192.168.20.0/24` | `192.168.20.254` | HSRP Active on MLS0 |
-| **VLAN 30 (Guest Network)** | `192.168.30.0/24` | `192.168.30.254` | HSRP Active on MLS0 |
-| **VLAN 5 (Services / SVR0)** | `192.168.5.0/24` | `192.168.5.1` | Central DHCP / DNS Server |
-
----
-
-## 🛠️ Implementation Roadmap & Current Progress
-
-- [x] Topology placement and device cabling (2911 Routers, 3560 MLS, 2960 Access)
-- [x] IPv4 subnetting plan and transit carve-outs
-- [x] Layer 2 VLAN database creation and 802.1Q trunking
-- [x] LACP EtherChannel (Po1) configuration and member synchronization
-- [x] HSRP (v2) standby group initialization and virtual gateway definition
-- [ ] Layer 3 routed uplink configuration to perimeter router
-- [ ] OSPFv2 dynamic routing configuration and adjacency convergence
-- [ ] DHCP Relay (`ip helper-address`) deployment for centralized IP management
-- [ ] Edge PAT (NAT Overload) deployment on perimeter gateway
-- [ ] Extended ACL deployment for network isolation and verification
-
----
-
-## 📁 Repository Structure (Upcoming)
-* `/configs/` — Full running configurations for all routers and switches (`.txt`)
-* `/topology/` — Cisco Packet Tracer lab file (`.pkt`) and export diagrams
-* `/verification/` — CLI validation logs (`show ip route`, `show standby brief`, `show etherchannel summary`, ping tests)
+### 9. End-to-End DNS Resolution & Web Reachability
+Full application-layer verification from LAN endpoint `PC0`. Demonstrates successful DNS query resolution for domain `www.example.com` against external server `8.8.8.8` and complete HTTP payload retrieval through the enterprise switching, routing, and NAT pipeline.
+![DNS and HTTP Verification](./dns-http-end-to-end-verification.png)
