@@ -11,6 +11,9 @@ All topologies are designed, configured, and validated using Cisco Packet Tracer
 * **Layer 2 Switching Configuration:** Custom VLAN databases, static access ports, and 802.1Q frame tagging across transit trunk links.
 * **Inter-VLAN Routing & Layer 3 Switching:** Configured Multi-Interface, Router-on-a-Stick (ROAS), and high-speed Switch Virtual Interface (SVI) models for wire-rate inter-VLAN traffic routing.
 * **Dynamic Enterprise Routing (OSPFv2):** Deployed single-area OSPF across multi-site routed backbones, optimizing routing tables with passive interfaces and default route injection.
+* **High Availability & First-Hop Redundancy (FHRP):** Configured active/standby Hot Standby Router Protocol (HSRP) with priority tuning and preemption across redundant multilayer switch cores to guarantee sub-second default gateway failover.
+* **Link Aggregation & Layer 2/Perimeter Hardening:** Deployed dynamic multi-link EtherChannel (LACP), secured access switch edge ports using Spanning Tree PortFast and BPDU Guard against rogue bridging loops, and segmented untrusted guest traffic using Extended Access Control Lists (ACLs).
+* **Enterprise Edge NAT/PAT & Services Integration:** Deployed Port Address Translation (PAT) overload on edge gateways to map RFC 1918 private subnets to external public WAN addressing, coupled with centralized DHCP relay agents and public DNS/HTTP resolution.
 
 ---
 
@@ -40,10 +43,17 @@ All topologies are designed, configured, and validated using Cisco Packet Tracer
 * **Description:** Scaled the enterprise architecture to support a multi-site WAN deployment using dynamic Single-Area OSPFv2 (Area 0). Interconnected a Campus Core Multilayer Switch to an Edge Gateway and a remote Branch Office via dedicated `/30` routed links, incorporating default route propagation (`default-information originate`), passive interface security boundaries, and simulated ISP return routing.
 * **🔗 [Click here to view the full lab documentation, screenshots, and topology files](./04-Single_Area_OSPFv2_Dynamic_Routing)**
 
+### 📁 05-Resilient Enterprise Core & Multi-Layer Routing Architecture
+* **Directory:** `05-Resilient_Enterprise_Core_HSRP_LACP_OSPF`
+* **Status:** 🟢 Completed & Validated
+* **Description:** Engineered an enterprise-scale, fault-tolerant campus architecture featuring redundant Cisco Catalyst 3560 multilayer switch cores. Implemented active/standby First-Hop Redundancy (HSRP) across departmental SVIs, an aggregated multi-link LACP trunk (Port-channel 1), dynamic Single-Area OSPFv2 backbone routing with default route injection, and edge Port Address Translation (PAT) to an external ISP network. Hardened the infrastructure using Spanning Tree BPDU Guard on access ports and extended ACLs to enforce strict guest network isolation.
+* **🔗 [Click here to view the full lab documentation, screenshots, and topology files](./05-Resilient_Enterprise_Core_HSRP_LACP_OSPF)**
+
 ---
 
 ## 🛠️ Tools & Environments Used
 * **Simulation Software:** Cisco Packet Tracer
-* **Hardware Architectures Modeled:** Cisco Catalyst 2960 Switches, Cisco Catalyst 3650 Multilayer Switches, Cisco ISR 2911 Routers
-* **Protocols & Standards:** IEEE 802.1Q, IPv4 VLSM, OSPFv2 (RFC 2328), SVI Layer 3 Switching, ICMP
+* **Hardware Architectures Modeled:** Cisco Catalyst 2960 Switches, Cisco Catalyst 3560 Multilayer Switches, Cisco ISR 2911 Integrated Services Routers, Generic Endpoints & Servers
+* **Protocols & Standards:** IEEE 802.1Q (VLAN Trunking), IEEE 802.3ad / 802.1AX (LACP EtherChannel), HSRP (RFC 2281), OSPFv2 (RFC 2328), Spanning Tree Protocol (STP / PortFast / BPDU Guard), IPv4 VLSM, NAT / PAT (RFC 1631 / RFC 3022), Extended ACLs, DHCP Relay (`ip helper-address`), DNS, HTTP, ICMP
 * **Configuration Interface:** Cisco IOS CLI
+
