@@ -47,7 +47,7 @@ This laboratory captures and analyzes an end-to-end Dynamic Host Configuration P
     * `Option 1: Subnet Mask (255.255.255.0)`
     * `Option 3: Router / Default Gateway (192.168.31.1)`
     * `Option 6: Domain Name Server (192.168.31.1)`
-    * `Option 51: IP Address Lease Time`
+    * `Option 51: IP Address Lease Time (8 hours)`
     * `Option 54: DHCP Server Identifier (192.168.31.1)`
 
 ---
